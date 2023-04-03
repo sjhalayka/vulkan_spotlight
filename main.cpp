@@ -107,7 +107,7 @@ class Sample : public VulkanCookbookSample {
         std::cout << "vertex data" << std::endl;
 
 
-        if (!Load3DModelFromObjFile("Data/Models/fractal.obj", true, false, false, true, Scene[0]))
+        if (!Load3DModelFromObjFile("Data/Models/knot.obj", true, false, false, true, Scene[0]))
         {
             std::cout << "knot failed" << std::endl;
             return false;

@@ -58,11 +58,13 @@ vec3 phongModelDiffAndSpec(bool do_specular)
 }
 
 
-void main() {
+void main()
+{
   float shadow = 1.0;
   vec4 shadow_coords = vert_texcoords / vert_texcoords.w;
   
-  if( texture( ShadowMap, shadow_coords.xy ).r < shadow_coords.z - 0.005 ) {
+  if( texture( ShadowMap, shadow_coords.xy ).r < shadow_coords.z - 0.005 )
+  {
     shadow = 0.5;
   }
 
@@ -83,17 +85,8 @@ void main() {
         frag_color /= 3;
     }
 
-    frag_color = pow( frag_color, vec4(1.0 / 2.2) );
+    //frag_color = pow( frag_color, vec4(1.0 / 2.2) );
 
-   
-   
-  
-     
-  vec3 normal_vector = normalize( vert_normal );
-  vec3 light_vector = normalize( vert_light );
-  float diffuse_term = max( 0.0, dot( normal_vector, light_vector ) );
-
-  frag_color = shadow * vec4( diffAndSpec, 1.0f ) + 0.1;
   
 
 }
