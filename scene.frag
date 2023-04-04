@@ -8,8 +8,7 @@ layout(location = 4) in vec4 lp;
 
 layout( set = 0, binding = 1 ) uniform sampler2D ShadowMap;
 
-layout( location = 0 ) out vec4 frag_color;
-
+layout( location = 0 ) out vec4 frag_colour;
 
 
 vec3 LightIntensity = vec3(1.0, 0.0, 0.0);
@@ -27,7 +26,7 @@ vec3 phongModelDiffAndSpec(bool do_specular)
 
 
     vec3 n = normal_vector;
-    vec3 s = normalize(lp.xyz - Position.xyz);
+    vec3 s = normalize(-lp.xyz - Position.xyz);
     vec3 v = normalize(-Position.xyz);
     vec3 r = reflect( -s, n );
     float sDotN = max( dot(s,n), 0.0 );
@@ -42,7 +41,7 @@ vec3 phongModelDiffAndSpec(bool do_specular)
     }
 
     vec3 n2 = normal_vector;
-    vec3 s2 = normalize(lp.xyz - Position.xyz);
+    vec3 s2 = normalize(-lp.xyz - Position.xyz);
     vec3 v2 = normalize(-Position.xyz);
     vec3 r2 = reflect( -s2, n2 );
     float sDotN2 = max( dot(s2,n2)*0.5f, 0.0 );
@@ -65,7 +64,7 @@ void main()
   
   if( texture( ShadowMap, shadow_coords.xy ).r < shadow_coords.z - 0.005 )
   {
-    shadow = 0.5;
+    shadow = 0.1;
   }
 
   
@@ -76,16 +75,16 @@ void main()
     if(shadow == 1.0)
     {
         diffAndSpec = phongModelDiffAndSpec(true);
-        frag_color = vec4(diffAndSpec, 1.0);// + vec4(diffAndSpec * shadow + MaterialKa*(1.0 - shadow), 1.0);
+        frag_colour = vec4(diffAndSpec, 1.0);// + vec4(diffAndSpec * shadow + MaterialKa*(1.0 - shadow), 1.0);
     }
     else
     {
         diffAndSpec = phongModelDiffAndSpec(false);
-        frag_color = vec4(diffAndSpec * shadow + MaterialKa*(1.0 - shadow), 1.0) + vec4(diffAndSpec, 1.0) + vec4(diffAndSpec * shadow + MaterialKa*(1.0 - shadow), 1.0);
-        frag_color /= 3;
-    }
+        frag_colour = vec4(diffAndSpec * shadow + MaterialKa*(1.0 - shadow), 1.0) + vec4(diffAndSpec, 1.0) + vec4(diffAndSpec * shadow + MaterialKa*(1.0 - shadow), 1.0);
+        frag_colour /= 3;
+     }
 
-    //frag_color = pow( frag_color, vec4(1.0 / 2.2) );
+    frag_colour = pow( frag_colour, vec4(1.0 / 2.2) );
 
   
 
